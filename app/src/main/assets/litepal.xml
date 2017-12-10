@@ -1,0 +1,11 @@
+<litepal>
+    <dbname value= "my_weather"/>
+    <version value= "1"/>
+
+    <list>
+        <mapping class="com.example.guiwu.myweather.db.City"/>
+        <mapping class="com.example.guiwu.myweather.db.Country"/>
+        <mapping class="com.example.guiwu.myweather.db.Province"/>
+
+    </list>
+</litepal>
