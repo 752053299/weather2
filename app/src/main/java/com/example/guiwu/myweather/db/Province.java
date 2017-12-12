@@ -19,11 +19,11 @@ public class Province extends DataSupport {
     @SerializedName("id")
     private int provienceNum;
 
-    public int getId() {
+    public int getDbId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setDbId(int id) {
         this.id = id;
     }
 

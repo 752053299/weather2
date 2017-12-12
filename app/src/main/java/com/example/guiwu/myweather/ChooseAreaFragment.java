@@ -7,8 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +25,6 @@ import org.litepal.crud.DataSupport;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -118,6 +115,23 @@ public class ChooseAreaFragment extends Fragment {
             super(itemView);
 
             mAreaName = (TextView) itemView.findViewById(R.id.area_name);
+
+            //每条记录的点击事件
+            mAreaName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //判断应该显示的子页面
+                    if (currentLeavel == LEVEL_PROVINCE) {
+                        //设置当前选定的省份
+                        slectedProvince = mProvinceList.get(getLayoutPosition());
+                        //设置标题
+                        titleText.setText(slectedProvince.getProvienceName());
+                        queryCities();
+                    } else if (currentLeavel == LEVEL_CITY) {
+
+                    }
+                }
+            });
         }
 
         public void bind(String name){
@@ -152,6 +166,11 @@ public class ChooseAreaFragment extends Fragment {
     }
 
 
+
+
+
+
+
     /**
      * 查询全国所有的省，优先从数据库查询，如果没有查询到再去服务器上查询
      */
@@ -177,7 +196,18 @@ public class ChooseAreaFragment extends Fragment {
      */
 
     private void queryCities(){
-
+        mBcakButton.setVisibility(View.VISIBLE);
+        mCities = DataSupport.findAll(City.class);
+        if (mCities.size() > 0){
+            datalist.clear();
+            for (City city : mCities){
+                datalist.add(city.getCityName());
+            }
+            currentLeavel = LEVEL_CITY;
+        }else {
+            String address = "http://guolin.tech/api/china/" + slectedProvince.getProvienceNum();
+            queryFromServer(address,"city");
+        }
     }
 
     /**
@@ -206,9 +236,9 @@ public class ChooseAreaFragment extends Fragment {
                 if ("province".equals(type)){
                     result = Utility.handleProvinceResponse(responseText);
                 }else if ("city".equals(type)){
-                    result = Utility.handleCityResponse(responseText,slectedProvince.getProvienceNum());
+                    result = Utility.handleCityResponse(responseText,slectedProvince.getDbId());
                 }else if ("country".equals(type)){
-                    result = Utility.handleCityResponse(responseText,slectedCountry.getCityId());
+                    result = Utility.handleCityResponse(responseText,slectedCountry.getDbId());
                 }
                 if (result){
                     getActivity().runOnUiThread(new Runnable() {

@@ -21,11 +21,11 @@ public class Country extends DataSupport {
 
     private int cityId;
 
-    public int getId() {
+    public int getDbId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setDbId(int id) {
         this.id = id;
     }
 
