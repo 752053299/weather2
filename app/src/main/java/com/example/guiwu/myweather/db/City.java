@@ -21,7 +21,7 @@ public class City extends DataSupport {
 
     private int provinceId;
 
-    public int getId() {
+    public int getDbId() {
         return id;
     }
 

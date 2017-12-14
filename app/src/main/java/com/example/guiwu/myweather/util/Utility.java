@@ -1,6 +1,7 @@
 package com.example.guiwu.myweather.util;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.guiwu.myweather.db.City;
 import com.example.guiwu.myweather.db.Country;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
  */
 
 public class Utility {
-
+    private static final String TAG = "ChooseAreaFragment";
     /**
      * 解析省
      */
@@ -34,7 +35,7 @@ public class Utility {
                 for (Province province : provinces){
                     province.save();
                 }
-
+             //   Log.i(TAG, "添加数据id： " + Thread.currentThread().getId());
                return true;
             }catch (Exception e){
                 e.printStackTrace();
