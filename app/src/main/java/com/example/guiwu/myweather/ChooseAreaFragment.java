@@ -225,6 +225,7 @@ public class ChooseAreaFragment extends Fragment {
 
     private void queryCities(){
         mBcakButton.setVisibility(View.VISIBLE);
+        titleText.setText(slectedProvince.getProvienceName());
         mCities = DataSupport.where("provinceId = ?",String.valueOf(slectedProvince.getDbId())).find(City.class);
         if (mCities.size() > 0){
             datalist.clear();
@@ -287,7 +288,7 @@ public class ChooseAreaFragment extends Fragment {
                 }else if ("city".equals(type)){
                     result = Utility.handleCityResponse(responseText,slectedProvince.getDbId());
                 }else if ("country".equals(type)){
-                    result = Utility.handleCityResponse(responseText,slectedCity.getDbId());
+                    result = Utility.handleCountryResponse(responseText,slectedCity.getDbId());
                 }
                 if (result){
                     getActivity().runOnUiThread(new Runnable() {
